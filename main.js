@@ -7,6 +7,7 @@ const overlay = document.querySelector('.js-lightbox');
 const originalImg = document.querySelector('.lightbox__image');
 const overlayContent = document.querySelector('.lightbox__content');
 const closeButton = document.querySelector('button[data-action="close-lightbox"]');
+let index = 0;
 
 list.insertAdjacentHTML('afterbegin', markup);
 
@@ -56,23 +57,28 @@ function closeByEsc(e) {
         window.removeEventListener('keydown', arrowCarousel);
     }
 }
-let index = 0;
+
 function arrowCarousel(e) {
     const arrOfSrc = [];
     const arrayOfOriginalImg = document.querySelectorAll('.gallery__link');
     arrayOfOriginalImg.forEach(src=>{
         arrOfSrc.push(src.href);
     });
-   for(let i =0; i < arrOfSrc.length; i++){
+   for(let i = 0; i < arrOfSrc.length; i++){
         if(originalImg.src === arrOfSrc[i]){
             index = i;
         }
     }
     if (e.code === 'ArrowRight'){
         originalImg.src = arrOfSrc[index+=1];
+        if(index >= arrOfSrc.length){
+            originalImg.src = arrOfSrc[0];
+        }
     }
     if (e.code === 'ArrowLeft'){
         originalImg.src = arrOfSrc[index-=1];
+        if (index < 0) {
+            originalImg.src = arrOfSrc[8];
+        }
     }
-    console.log(e.code);
 }
