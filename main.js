@@ -24,7 +24,6 @@ function createGalleryMarkup({preview, original, description}) {
 
 list.addEventListener('click', openModalWindow);
 overlay.addEventListener('click', handleOverlayClick);
-window.addEventListener('keydown', arrowCarousel);
 function setAttribute(original) {
     originalImg.src= `${original}`;
 }
@@ -32,6 +31,7 @@ function setAttribute(original) {
 function openModalWindow(e) {
 e.preventDefault();
 window.addEventListener('keydown', closeByEsc);
+    window.addEventListener('keydown', arrowCarousel);
 if(e.target === e.currentTarget) {
     return;
 }
@@ -43,6 +43,7 @@ setAttribute(original);
 function handleOverlayClick(e) {
     if (e.target === overlayContent || e.target === closeButton){
         window.removeEventListener('keydown', closeByEsc);
+        window.removeEventListener('keydown', arrowCarousel);
         overlay.classList.remove('is-open');
         originalImg.src = '';
     }
@@ -52,6 +53,7 @@ function closeByEsc(e) {
     if(e.code === 'Escape'){
         overlay.classList.remove('is-open');
         window.removeEventListener('keydown', closeByEsc);
+        window.removeEventListener('keydown', arrowCarousel);
     }
 }
 let index = 0;
@@ -72,4 +74,5 @@ function arrowCarousel(e) {
     if (e.code === 'ArrowLeft'){
         originalImg.src = arrOfSrc[index-=1];
     }
+    console.log(e.code);
 }
